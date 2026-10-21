@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#214f3c">
+<title>Fiera · Gestionale cassa</title>
+<style>
+:root{--ink:#202824;--muted:#778078;--line:#e6e9e3;--paper:#f2f4ef;--white:#fff;--green:#214f3c;--green2:#2c6a4d;--lime:#d8ed9c;--lime2:#f0f7df;--red:#a34436;--shadow:0 16px 45px #233b2912}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.45 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:230px 1fr}
+.side{background:var(--green);color:#fff;padding:24px 16px;display:flex;flex-direction:column}
+.brand{display:flex;align-items:center;gap:10px;margin:0 6px 35px;border:0;background:transparent;color:inherit;text-align:left;padding:0;width:100%}.brandmark{width:39px;height:39px;flex:0 0 39px;border-radius:12px;background:var(--lime);color:var(--green);display:grid;place-items:center;font-size:20px;font-weight:850}.brand strong{font-size:15px;display:block}.brand small{font-size:11px;color:#c3d2c9;display:block}
+.navlabel{font-size:10px;text-transform:uppercase;letter-spacing:.16em;color:#a8beb1;margin:0 12px 9px}.navbtn{width:100%;border:0;background:transparent;color:#d9e5de;text-align:left;padding:11px 12px;border-radius:10px;display:flex;align-items:center;gap:10px;margin:3px 0}.navbtn.active,.navbtn:hover{background:#ffffff19;color:white}.navbtn b{font-weight:550}.navicon{width:20px;text-align:center}.sidebottom{margin-top:auto;border-top:1px solid #ffffff26;padding:17px 8px 0;color:#b7c9bd;font-size:12px}
+.main{padding:25px clamp(16px,3.5vw,48px) 42px;max-width:1450px;width:100%;margin:0 auto}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin:0 0 25px}.crumb{color:var(--muted);font-size:12px}.righttop{display:flex;align-items:center;gap:10px}.datepill{background:#fff;border:1px solid var(--line);padding:8px 11px;border-radius:9px;font-size:12px;color:#59645c}.avatar{height:34px;width:34px;border-radius:50%;background:var(--lime2);color:var(--green);display:grid;place-items:center;font-size:12px;font-weight:700}.view{display:none}.view.active{display:block}.heading{margin-bottom:22px}.eyebrow{color:var(--green2);font-size:11px;letter-spacing:.12em;text-transform:uppercase;font-weight:700;margin-bottom:7px}.heading h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(29px,3vw,40px);letter-spacing:-.03em;line-height:1.1;margin:0 0 8px}.heading p{margin:0;color:var(--muted)}
+.flowcard,.panel{background:var(--white);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.flowcard{max-width:950px;padding:clamp(18px,3vw,30px)}.stepper{display:flex;align-items:center;gap:9px;margin-bottom:25px}.step{display:flex;align-items:center;gap:8px;font-size:12px;color:#8b948d}.step .num{width:25px;height:25px;display:grid;place-items:center;border-radius:50%;border:1px solid #d4dbd4;font-size:11px}.step.current{color:var(--green);font-weight:650}.step.current .num,.step.done .num{background:var(--green);color:#fff;border-color:var(--green)}.step.done{color:var(--green2)}.connector{height:1px;width:clamp(12px,3vw,35px);background:var(--line)}
+.subheading{font-size:17px;margin:0 0 5px}.hint{font-size:13px;color:var(--muted);margin:0 0 16px}
+.sellergrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.seller{position:relative;min-height:66px;border:1px solid var(--line);border-radius:10px;background:#fff;text-align:left;padding:10px 12px;transition:.15s;color:var(--ink);overflow:hidden}.seller:hover{border-color:#8ba894;transform:translateY(-1px)}.seller.selected{background:var(--lime2);border:2px solid var(--green2);padding:9px 11px}.seller .check{position:absolute;top:7px;right:7px;width:16px;height:16px;border-radius:50%;border:1px solid #cdd5cd;color:transparent;font-size:10px;display:grid;place-items:center}.seller.selected .check{background:var(--green2);color:white;border-color:var(--green2)}.seller strong{display:block;padding-right:14px;font-size:13px;line-height:1.3;overflow-wrap:anywhere}.seller .id{font-size:11px;color:var(--green2);font-weight:750;letter-spacing:.02em;display:block;margin-bottom:3px}.seller em{font-style:normal;color:#89938b;font-size:10px}
+.bottomrow{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:22px}.btn{border:1px solid var(--line);background:#fff;color:var(--ink);padding:10px 15px;border-radius:9px;font-size:13px;font-weight:650}.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn.primary:hover{background:var(--green2)}.btn.danger{background:#fff7f5;border-color:#e8c9c3;color:var(--red)}.btn:disabled{opacity:.4;cursor:not-allowed}.btn.small{font-size:12px;padding:8px 11px}
+.rangegrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:19px}.range{min-height:100px;border:1px solid var(--line);border-radius:12px;background:white;text-align:left;padding:14px;transition:.15s}.range:hover{border-color:#9db4a2;transform:translateY(-1px)}.range.selected{background:var(--lime2);border:2px solid var(--green2);padding:13px}.range small{display:block;color:var(--muted);font-size:11px;margin-bottom:9px}.range strong{font-size:19px;font-family:Georgia,serif;font-weight:500}.range.selected strong{color:var(--green)}.range .approx{display:block;color:#7e887f;font-size:10px;margin-top:5px}.selectedbanner{background:#f7f9f5;padding:11px 14px;border-radius:9px;font-size:12px;color:#59645c;margin-top:18px}.success{display:none;max-width:950px;background:#edf5e6;border:1px solid #d5e5c4;padding:17px 19px;border-radius:13px;margin-top:14px;align-items:center;justify-content:space-between;gap:12px}.success.show{display:flex}.success strong{color:var(--green)}.success p{margin:3px 0 0;color:#637269;font-size:12px}
+.panel{padding:20px}.metricrow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:15px}.metric{background:white;border:1px solid var(--line);border-radius:13px;padding:16px}.metric label{font-size:11px;color:var(--muted)}.metric strong{display:block;font-size:25px;font-family:Georgia,serif;font-weight:500;margin-top:7px}.metric small{font-size:11px;color:#839087}.adminlayout{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(260px,1fr);gap:15px}.panelhead{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:13px}.panelhead h2{font-size:15px;margin:0}.panelhead span{font-size:11px;color:var(--muted)}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:470px}th{text-transform:uppercase;letter-spacing:.08em;font-size:10px;color:#849087;text-align:left;font-weight:600;padding:10px 8px;border-bottom:1px solid var(--line)}td{padding:11px 8px;border-bottom:1px solid #eef0ec;font-size:12px}tr:last-child td{border-bottom:0}.money{font-weight:650;color:#34463a}.dist{display:grid;gap:12px}.distrow,.hourrow{display:grid;grid-template-columns:70px 1fr 24px;align-items:center;gap:8px;font-size:11px}.barbg{height:7px;background:#edf0ea;border-radius:8px;overflow:hidden}.bar{height:100%;background:#67906e;border-radius:8px}.hourstats{margin-top:20px;padding-top:16px;border-top:1px solid var(--line)}.hourstats h3{font-size:13px;margin:0 0 11px}.hourlist{display:grid;gap:9px}.hourrow{grid-template-columns:100px 1fr 24px}.hourrow.peak{color:var(--green);font-weight:700}.peaknote{margin-top:12px;background:var(--lime2);color:var(--green);padding:10px 11px;border-radius:9px;font-size:12px}.hours-empty{font-size:12px;color:var(--muted);padding:8px 0}.filters{display:flex;gap:8px;margin-bottom:15px}.select{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff;color:#4d5950;font-size:12px}
+.setup{max-width:850px}.setupintro{font-size:13px;color:var(--muted);margin:-7px 0 18px}.selleredit{display:grid;grid-template-columns:70px minmax(0,1fr) 80px;gap:10px;align-items:center;border-bottom:1px solid var(--line);padding:10px 0}.selleredit:last-child{border:0}.selleredit label{font-size:11px;color:var(--green2);font-weight:750}.selleredit input{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px 11px;outline:none;min-width:0}.selleredit input:focus{border-color:#6b8d75}.status{font-size:11px;color:#8b948d;text-align:right}.setupfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:17px}.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,12px);background:#263a2c;color:#fff;padding:12px 17px;border-radius:10px;font-size:13px;box-shadow:var(--shadow);opacity:0;transition:.2s;pointer-events:none;z-index:50;max-width:calc(100vw - 30px);text-align:center}.toast.show{opacity:1;transform:translate(-50%,0)}
+.modalback{position:fixed;inset:0;background:#13231bd1;display:none;align-items:center;justify-content:center;padding:18px;z-index:100}.modalback.show{display:flex}.modal{width:min(100%,440px);background:#fff;border-radius:18px;padding:25px;box-shadow:0 24px 80px #0003}.modal h2{font-family:Georgia,serif;font-size:28px;font-weight:500;margin:0 0 7px}.modal p{font-size:13px;color:var(--muted);margin:0 0 18px}.confirmbox{background:#f7f9f5;border:1px solid var(--line);border-radius:12px;padding:16px;margin:18px 0}.confirmbox .label{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}.confirmbox strong{display:block;font-size:18px;color:var(--green);margin:5px 0}.confirmbox span{font-size:13px;color:#58645b}.modalactions{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap}.formlabel{display:block;font-size:12px;font-weight:650;margin-bottom:7px}.pininput{width:100%;border:1px solid var(--line);border-radius:9px;padding:12px;margin-bottom:13px}.modalerror{font-size:12px;color:var(--red);min-height:18px;margin:-4px 0 10px}
+@media(max-width:980px){.app{grid-template-columns:190px 1fr}.sellergrid{grid-template-columns:repeat(4,minmax(0,1fr))}.adminlayout{grid-template-columns:1fr}.metricrow{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:660px){.app{display:block}.side{display:none}.main{padding:14px 12px 28px}.top{margin-bottom:20px}.crumb{font-size:11px}.datepill{padding:7px 8px;font-size:11px}.righttop{gap:7px}.heading{margin-bottom:17px}.heading h1{font-size:31px}.flowcard{padding:17px 13px;border-radius:13px}.stepper{gap:6px;margin-bottom:20px}.step{font-size:10px;gap:5px}.step .num{width:22px;height:22px}.connector{width:12px}.sellergrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.seller{min-height:60px;padding:8px}.seller.selected{padding:7px}.seller strong{font-size:12px}.seller .id{font-size:10px}.seller em{font-size:9px}.rangegrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.range{min-height:91px;padding:12px}.range.selected{padding:11px}.range strong{font-size:19px}.bottomrow{margin-top:18px}.btn{padding:10px 12px}.success{align-items:flex-start;flex-direction:column}.metric{padding:13px}.metric strong{font-size:22px}.panel{padding:15px 12px}.selleredit{grid-template-columns:55px minmax(0,1fr);gap:8px}.selleredit .status{grid-column:2;text-align:left;margin-top:-6px}.setupfoot{align-items:stretch;flex-direction:column}.setupfoot .btn{width:100%}.modal{padding:21px 18px}.modal h2{font-size:25px}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="side">
+  <button class="brand" data-home aria-label="Torna alla home"><span class="brandmark">F</span><span><strong>Fiera · Cassa</strong><small>Gestione vendite</small></span></button>
+  <div class="navlabel">Menu principale</div>
+  <button class="navbtn active" data-page="cash"><span class="navicon">▦</span><b>Cassa</b></button>
+  <button class="navbtn" data-page="admin"><span class="navicon">▤</span><b>Riepilogo</b></button>
+  <button class="navbtn" data-page="sellers"><span class="navicon">♙</span><b>Gestione operatori</b></button>
+  <div class="sidebottom">● Modalità demo<br><span style="opacity:.75">I dati sono salvati su questo dispositivo</span></div>
+</aside>
+<main class="main">
+  <header class="top">
+    <div class="crumb">Gestionale / <strong id="crumbPage">Cassa</strong></div>
+    <div class="righttop"><span class="datepill" id="datePill"></span><button class="btn small" id="adminAccess">Accesso admin</button></div>
+  </header>
+
+  <section class="view active" id="cash">
+    <div class="heading"><div class="eyebrow">Postazione cassa</div><h1>Registra una vendita</h1><p>Seleziona l'operatore, scegli la fascia d'importo e conferma.</p></div>
+    <div class="flowcard">
+      <div class="stepper"><div class="step current" id="s1"><span class="num">1</span><span>Operatore</span></div><div class="connector"></div><div class="step" id="s2"><span class="num">2</span><span>Importo</span></div><div class="connector"></div><div class="step" id="s3"><span class="num">3</span><span>Conferma</span></div></div>
+      <div id="sellerStep">
+        <h2 class="subheading">Chi ha effettuato la vendita?</h2><p class="hint">Tocca il tasto con il numero e il nome dell'operatore.</p>
+        <div class="sellergrid" id="sellerGrid"></div>
+        <div class="bottomrow"><span class="hint" style="margin:0">Selezionato: <b id="selectedSellerLabel">nessuno</b></span><button class="btn primary" id="toAmount" disabled>Continua →</button></div>
+      </div>
+      <div id="amountStep" style="display:none">
+        <h2 class="subheading">Importo della vendita</h2><p class="hint">Scegli la fascia che corrisponde al totale della vendita.</p>
+        <div class="rangegrid">
+          <button class="range" data-range="0-5"><small>Fascia 1</small><strong>0€ – 5€</strong><span class="approx">Stima media 2,50€</span></button>
+          <button class="range" data-range="5-10"><small>Fascia 2</small><strong>5€ – 10€</strong><span class="approx">Stima media 7,50€</span></button>
+          <button class="range" data-range="10-25"><small>Fascia 3</small><strong>10€ – 25€</strong><span class="approx">Stima media 17,50€</span></button>
+          <button class="range" data-range="25-50"><small>Fascia 4</small><strong>25€ – 50€</strong><span class="approx">Stima media 37,50€</span></button>
+        </div>
+        <div class="selectedbanner" id="selectionBanner">Seleziona una fascia d'importo.</div>
+        <div class="bottomrow"><button class="btn" id="backSeller">← Cambia operatore</button><button class="btn primary" id="recordSale" disabled>Registra vendita →</button></div>
+      </div>
+    </div>
+    <div class="success" id="success"><div><strong>✓ Vendita registrata</strong><p id="successText"></p></div><button class="btn primary" id="nextSale">Nuova vendita</button></div>
+  </section>
+
+  <section class="view" id="admin">
+    <div class="heading"><div class="eyebrow">Area amministratore</div><h1>Riepilogo vendite</h1><p>Statistiche dimostrative basate sulle vendite registrate in questo dispositivo.</p></div>
+    <div class="filters"><select class="select" id="dayFilter"><option value="today">Oggi</option><option value="all">Tutte le date</option></select><button class="btn small" id="exportBtn">Esporta CSV</button></div>
+    <div class="metricrow"><div class="metric"><label>Incasso stimato</label><strong id="totalMetric">€ 0,00</strong><small>Somma delle stime</small></div><div class="metric"><label>Vendite registrate</label><strong id="countMetric">0</strong><small id="saleMetric">0 vendite</small></div><div class="metric"><label>Media vendita</label><strong id="avgMetric">€ 0,00</strong><small>Stima media per vendita</small></div><div class="metric"><label>Ora più produttiva</label><strong id="peakHourMetric">—</strong><small id="peakHourCount">In attesa delle vendite</small></div></div>
+    <div class="adminlayout">
+      <div class="panel"><div class="panelhead"><h2>Rendimento operatori</h2><span id="operatorCount">0 operatori attivi</span></div><div class="tablewrap"><table><thead><tr><th>Operatore</th><th>Vendite</th><th>Incasso stimato</th><th>Media</th></tr></thead><tbody id="sellerRows"></tbody></table></div></div>
+      <div class="panel"><div class="panelhead"><h2>Vendite per fascia</h2><span>Numero vendite</span></div><div class="dist" id="distribution"></div><div class="hourstats"><h3>Produttività per ora</h3><div class="hourlist" id="hourDistribution"></div><div class="peaknote" id="peakHourNote">La fascia più produttiva apparirà dopo la prima vendita.</div></div></div>
+    </div>
+  </section>
+
+  <section class="view" id="sellers">
+    <div class="heading"><div class="eyebrow">Impostazioni</div><h1>Gestione operatori</h1><p>Modifica i nomi mostrati nella cassa. Puoi gestire da 5 a 10 operatori.</p></div>
+    <div class="panel setup"><div class="panelhead"><h2>Nomi operatori</h2><span id="sellerLimit">5 di 10</span></div><p class="setupintro">I numeri restano fissi; il nome è facoltativo. Premi Salva per applicare le modifiche alla cassa.</p><div id="sellerEditor"></div><div class="setupfoot"><button class="btn" id="addSeller">＋ Aggiungi operatore</button><button class="btn primary" id="saveSellers">Salva nomi</button></div></div>
+  </section>
+</main>
+</div>
+
+<div class="modalback" id="confirmModal" role="dialog" aria-modal="true" aria-labelledby="confirmTitle">
+  <div class="modal"><div class="eyebrow">Verifica operazione</div><h2 id="confirmTitle">Confermi la vendita?</h2><p>Controlla operatore e importo prima di registrare definitivamente.</p><div class="confirmbox"><div class="label">Operatore</div><strong id="confirmSeller">—</strong><div class="label" style="margin-top:13px">Fascia selezionata</div><strong id="confirmRange">—</strong><span id="confirmEstimate">Stima —</span></div><div class="modalactions"><button class="btn" id="cancelConfirm">Annulla e modifica</button><button class="btn primary" id="approveSale">Conferma vendita</button></div></div>
+</div>
+<div class="modalback" id="loginModal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+  <form class="modal" id="loginForm"><div class="eyebrow">Area riservata</div><h2 id="loginTitle">Accesso amministratore</h2><p>Inserisci il codice demo per aprire le impostazioni e il riepilogo.</p><label class="formlabel" for="adminPin">Codice di accesso</label><input class="pininput" id="adminPin" type="password" inputmode="numeric" autocomplete="current-password" placeholder="Inserisci il codice" required><div class="modalerror" id="loginError"></div><div class="modalactions"><button type="button" class="btn" id="cancelLogin">Annulla</button><button type="submit" class="btn primary">Accedi</button></div><p style="margin:15px 0 0;font-size:11px">Demo: codice iniziale <b>1234</b>. Da sostituire con autenticazione sicura prima dell'uso reale.</p></form>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>
+const DEFAULT_SELLERS=[{id:1,name:'Elena'},{id:2,name:'Marco'},{id:3,name:'Giulia'},{id:4,name:''},{id:5,name:''}];
+const mids={'0-5':2.5,'5-10':7.5,'10-25':17.5,'25-50':37.5};
+const bands=[['0-5','0€ – 5€'],['5-10','5€ – 10€'],['10-25','10€ – 25€'],['25-50','25€ – 50€']];
+let names=load('fiera_sellers',DEFAULT_SELLERS),sales=load('fiera_sales',[]),selectedSeller=null,selectedRange=null,adminUnlocked=false;
+const byId=id=>names.find(x=>x.id===id);
+const displayName=s=>s.name.trim()||'Operatore';
+const euros=n=>'€ '+Number(n||0).toLocaleString('it-IT',{minimumFractionDigits:2,maximumFractionDigits:2});
+const $=id=>document.getElementById(id);
+function load(key,fallback){try{const v=localStorage.getItem(key);return v?JSON.parse(v):JSON.parse(JSON.stringify(fallback))}catch(e){return JSON.parse(JSON.stringify(fallback))}}
+function persist(){try{localStorage.setItem('fiera_sellers',JSON.stringify(names));localStorage.setItem('fiera_sales',JSON.stringify(sales))}catch(e){toast('Impossibile salvare sul dispositivo. Esporta i dati.')}} 
+function escapeHTML(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function renderSellers(){
+  $('sellerGrid').innerHTML=names.map(s=>`<button class="seller ${selectedSeller===s.id?'selected':''}" data-seller="${s.id}" aria-pressed="${selectedSeller===s.id}"><span class="check">✓</span><span class="id">N. ${String(s.id).padStart(2,'0')}</span><strong>${escapeHTML(s.name.trim()||'—')}</strong></button>`).join('');
+  $('sellerGrid').querySelectorAll('[data-seller]').forEach(b=>b.addEventListener('click',()=>{selectedSeller=Number(b.dataset.seller);renderSellers();$('selectedSellerLabel').textContent=`N. ${String(selectedSeller).padStart(2,'0')} · ${displayName(byId(selectedSeller))}`;$('toAmount').disabled=false;}));
+  if(selectedSeller===null)$('selectedSellerLabel').textContent='nessuno';
+}
+function setPage(page){
+  if((page==='admin'||page==='sellers')&&!adminUnlocked){openLogin(page);return}
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===page));
+  document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  $('crumbPage').textContent={cash:'Cassa',admin:'Riepilogo',sellers:'Gestione operatori'}[page]||'Cassa';
+  if(page==='admin')renderAdmin();if(page==='sellers')renderEditor();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function goHome(){setPage('cash');}
+document.querySelectorAll('[data-page]').forEach(b=>b.addEventListener('click',()=>setPage(b.dataset.page)));
+document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',goHome));
+function openLogin(nextPage){$('loginModal').dataset.next=nextPage;$('loginError').textContent='';$('adminPin').value='';$('loginModal').classList.add('show');setTimeout(()=>$('adminPin').focus(),50)}
+function closeLogin(){$('loginModal').classList.remove('show')}
+$('adminAccess').addEventListener('click',()=>adminUnlocked?setPage('admin'):openLogin('admin'));
+$('cancelLogin').addEventListener('click',closeLogin);
+$('loginForm').addEventListener('submit',e=>{e.preventDefault();if($('adminPin').value==='1234'){adminUnlocked=true;const next=$('loginModal').dataset.next||'admin';closeLogin();setPage(next);toast('Accesso demo effettuato')}else{$('loginError').textContent='Codice non corretto. Riprova.';$('adminPin').select()}});
+$('toAmount').addEventListener('click',()=>{if(selectedSeller===null)return;$('sellerStep').style.display='none';$('amountStep').style.display='block';$('s1').className='step done';$('s2').className='step current';$('selectionBanner').innerHTML=`Operatore selezionato: <b>${escapeHTML(displayName(byId(selectedSeller)))}</b> · N. ${String(selectedSeller).padStart(2,'0')}`;window.scrollTo({top:0,behavior:'smooth'})});
+$('backSeller').addEventListener('click',()=>{ $('amountStep').style.display='none';$('sellerStep').style.display='block';$('s1').className='step current';$('s2').className='step';selectedRange=null;document.querySelectorAll('.range').forEach(b=>b.classList.remove('selected'));$('recordSale').disabled=true;window.scrollTo({top:0,behavior:'smooth'})});
+document.querySelectorAll('.range').forEach(b=>b.addEventListener('click',()=>{selectedRange=b.dataset.range;document.querySelectorAll('.range').forEach(x=>x.classList.toggle('selected',x===b));$('recordSale').disabled=false;$('selectionBanner').innerHTML=`Operatore: <b>${escapeHTML(displayName(byId(selectedSeller)))}</b> · Importo: <b>${bands.find(x=>x[0]===selectedRange)[1]}</b>`}));
+$('recordSale').addEventListener('click',()=>{if(selectedRange===null||selectedSeller===null)return;$('confirmSeller').textContent=`N. ${String(selectedSeller).padStart(2,'0')} · ${displayName(byId(selectedSeller))}`;$('confirmRange').textContent=bands.find(x=>x[0]===selectedRange)[1];$('confirmEstimate').textContent=`Incasso stimato: ${euros(mids[selectedRange])}`;$('confirmModal').classList.add('show')});
+$('cancelConfirm').addEventListener('click',()=>{$('confirmModal').classList.remove('show');$('amountStep').style.display='block';$('sellerStep').style.display='none';$('s1').className='step done';$('s2').className='step current';window.scrollTo({top:0,behavior:'smooth'})});
+$('approveSale').addEventListener('click',()=>{
+  if(selectedRange===null||selectedSeller===null)return;
+  const now=new Date();
+  sales.push({id:(crypto.randomUUID?crypto.randomUUID():String(Date.now())+Math.random()),seller:selectedSeller,range:selectedRange,amount:mids[selectedRange],date:now.toLocaleDateString('sv-SE'),time:now.toLocaleTimeString('it-IT',{hour:'2-digit',minute:'2-digit',second:'2-digit'}),hour:now.getHours(),createdAt:now.toISOString()});
+  persist();$('confirmModal').classList.remove('show');$('amountStep').style.display='none';$('sellerStep').style.display='block';$('s1').className='step done';$('s2').className='step done';$('s3').className='step current';$('successText').textContent=`${displayName(byId(selectedSeller))} · ${bands.find(x=>x[0]===selectedRange)[1]} · stima ${euros(mids[selectedRange])}`;$('success').classList.add('show');selectedSeller=null;selectedRange=null;$('toAmount').disabled=true;$('recordSale').disabled=true;renderSellers();$('selectedSellerLabel').textContent='nessuno';window.scrollTo({top:0,behavior:'smooth'});
+});
+$('nextSale').addEventListener('click',()=>{$('success').classList.remove('show');$('s1').className='step current';$('s2').className='step';$('s3').className='step';$('sellerStep').style.display='block';$('amountStep').style.display='none';window.scrollTo({top:0,behavior:'smooth'})});
+function renderAdmin(){
+  const filter=$('dayFilter').value,today=new Date().toLocaleDateString('sv-SE');
+  const shown=sales.filter(s=>filter==='all'||s.date===today),total=shown.reduce((a,s)=>a+Number(s.amount||0),0);
+  $('totalMetric').textContent=euros(total);$('countMetric').textContent=shown.length;$('saleMetric').textContent=`${shown.length} ${shown.length===1?'vendita':'vendite'} registrate`;$('avgMetric').textContent=euros(shown.length?total/shown.length:0);
+  const rows=names.map(s=>{const ss=shown.filter(x=>x.seller===s.id),sum=ss.reduce((a,x)=>a+Number(x.amount||0),0);return{s,ss,sum}});
+  $('operatorCount').textContent=`${rows.filter(r=>r.ss.length).length} operatori attivi`;
+  $('sellerRows').innerHTML=rows.map(r=>`<tr><td><b>N. ${String(r.s.id).padStart(2,'0')}</b> · ${escapeHTML(displayName(r.s))}</td><td>${r.ss.length}</td><td class="money">${euros(r.sum)}</td><td>${euros(r.ss.length?r.sum/r.ss.length:0)}</td></tr>`).join('');
+  $('distribution').innerHTML=bands.map(([k,label])=>{const n=shown.filter(s=>s.range===k).length,p=shown.length?Math.round(n/shown.length*100):0;return `<div class="distrow"><span>${label}</span><div class="barbg"><div class="bar" style="width:${p}%"></div></div><b>${n}</b></div>`}).join('');
+  const byHour=new Map();shown.forEach(s=>byHour.set(s.hour,(byHour.get(s.hour)||0)+1));const hours=[...byHour.entries()].sort((a,b)=>a[0]-b[0]),peak=hours.reduce((best,item)=>item[1]>best[1]?item:best,[null,0]),max=Math.max(1,...hours.map(h=>h[1]));
+  $('peakHourMetric').textContent=peak[0]===null?'—':`${String(peak[0]).padStart(2,'0')}:00`;$('peakHourCount').textContent=peak[0]===null?'In attesa delle vendite':`${peak[1]} ${peak[1]===1?'vendita':'vendite'} in quest'ora`;
+  $('peakHourNote').textContent=peak[0]===null?'La fascia più produttiva apparirà dopo la prima vendita.':`Picco: ${String(peak[0]).padStart(2,'0')}:00–${String(peak[0]+1).padStart(2,'0')}:00 · ${peak[1]} vendite.`;
+  $('hourDistribution').innerHTML=hours.length?hours.map(([hour,count])=>`<div class="hourrow ${hour===peak[0]?'peak':''}"><span>${String(hour).padStart(2,'0')}:00–${String(hour+1).padStart(2,'0')}:00</span><div class="barbg"><div class="bar" style="width:${Math.round(count/max*100)}%"></div></div><b>${count}</b></div>`).join(''):'<div class="hours-empty">Nessuna vendita registrata per il periodo selezionato.</div>';
+}
+$('dayFilter').addEventListener('change',renderAdmin);
+function renderEditor(){
+  $('sellerLimit').textContent=`${names.length} di 10 operatori`;
+  $('sellerEditor').innerHTML=names.map(s=>`<div class="selleredit"><label>N. ${String(s.id).padStart(2,'0')}</label><input data-edit="${s.id}" maxlength="28" placeholder="Nome operatore (facoltativo)" value="${escapeHTML(s.name)}"><span class="status">${s.name.trim()?'Nome inserito':'Facoltativo'}</span></div>`).join('');
+  $('addSeller').disabled=names.length>=10;$('addSeller').style.opacity=names.length>=10?'.45':'1';
+}
+$('addSeller').addEventListener('click',()=>{if(names.length>=10)return;let id=1;while(names.some(s=>s.id===id))id++;names.push({id,name:''});names.sort((a,b)=>a.id-b.id);renderEditor()});
+$('saveSellers').addEventListener('click',()=>{document.querySelectorAll('[data-edit]').forEach(i=>{const s=byId(Number(i.dataset.edit));if(s)s.name=i.value.trim()});persist();renderEditor();renderSellers();toast('Nomi operatori salvati su questo dispositivo')});
+function toast(message){const el=$('toast');el.textContent=message;el.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.remove('show'),2600)}
+$('exportBtn').addEventListener('click',()=>{const rows=[['ID vendita','Data','Ora','Numero operatore','Operatore','Fascia','Importo stimato'],...sales.map(s=>[s.id,s.date,s.time,s.seller,displayName(byId(s.seller)||{id:s.seller,name:''}),bands.find(b=>b[0]===s.range)?.[1]||s.range,Number(s.amount||0).toFixed(2).replace('.',',')])];const csv=rows.map(row=>row.map(v=>`"${String(v??'').replaceAll('"','""')}"`).join(';')).join('\r\n');const blob=new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='registro-vendite-fiera.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Registro vendite esportato in CSV')});
+$('confirmModal').addEventListener('click',e=>{if(e.target===$('confirmModal'))$('confirmModal').classList.remove('show')});
+$('loginModal').addEventListener('click',e=>{if(e.target===$('loginModal'))closeLogin()});
+const now=new Date();$('datePill').textContent=new Intl.DateTimeFormat('it-IT',{weekday:'short',day:'numeric',month:'short'}).format(now);
+renderSellers();
+</script>
+</body>
+</html>
